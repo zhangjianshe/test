@@ -1,0 +1,6 @@
+{
+  "type":"REQ_PACKAGE",
+  "name":"zjs",
+  "command":"hello",
+  "data":[{"k":"color","v":"0x908765"}]
+}
