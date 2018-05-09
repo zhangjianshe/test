@@ -6,7 +6,7 @@ function ziroom_encode(source,target)
     source.type="from lua data!"
     source.mac="asaddsadsa"
 
-    print()
+
     target:writeInt16(0); --length
     target:writeInt8(0);
     target:writeInt8(0x11);
