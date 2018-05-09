@@ -7,6 +7,7 @@
 
 #include <string>
 #include <list>
+#include <map>
 #include "KeyValue.h"
 
 using namespace std;
@@ -32,7 +33,7 @@ private:
     string mac;
     string command;
     string attribute;
-    list <KeyValue> data;
+    map<string,string> data;
 public:
     string getType() const {
         return type;
@@ -71,10 +72,12 @@ public:
         return attribute;
     }
 
+    std::map<string,string> getData() const {
+        return data;
+    }
     void setAttribute(string t) {
         attribute = t;
     }
-
     string toJSON() {
         string str;
         str.append("{");
@@ -82,7 +85,7 @@ public:
         str.append("\"mac\":\"").append(mac).append("\",");
         str.append("\"sno\":\"").append(sno).append("\",");
         str.append("\"command\":\"").append(command).append("\",");
-        str.append("\"attribute\":\"").append(attribute).append("\",");
+        str.append("\"attribute\":\"").append(attribute).append("\"");
         str.append("}");
         return str;
     }

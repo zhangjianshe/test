@@ -5,9 +5,14 @@ function ziroom_encode(source,target)
 
     source.type="from lua data!"
     source.mac="asaddsadsa"
-    target:writeInt32(1);
-    target:writeInt16(2);
-    target:writeString("{abc:123张}")
+
+    print()
+    target:writeInt16(0); --length
+    target:writeInt8(0);
+    target:writeInt8(0x11);
+    target:writeString(source:toJSON())
+    target:writeInt16(0)  -- CRC
+    target:setInt16(0,target.length)
 end
 
 -- 设备驱动解码  将设备传来的数据转换为设备消息

@@ -51,7 +51,15 @@ public:
         }
         return 0;
     }
+/*
+     * 写1个字节
+     */
+    int readInt8() {
 
+        int byte0 = next();
+        int b =(byte0 & 0xFF);
+        return b;
+    }
     /*
      * 写2个字节
      */
@@ -60,8 +68,6 @@ public:
         int byte0 = next();
         int byte1 = next();
 
-        printf("read %d %d", byte0, byte1);
-
         int b = (byte0 << 8 & 0xFF00);
         b = b | (byte1 & 0x00FF);
         return b;
@@ -69,7 +75,7 @@ public:
 
 
     /*
-    * 写4个字节
+    * 讀4个字节
     */
     int readInt32() {
 
@@ -83,6 +89,14 @@ public:
         b = b | ((byte2 << 8) & 0x0000FF00);
         b = b | (byte3 & 0xFF);
         return b;
+    }
+/*
+     * 写2个字符
+     */
+    void writeInt8(int data) {
+        unsigned char byte;
+        byte = (unsigned char) data & 0xFF;
+        append(byte);
     }
 
     /*
@@ -153,6 +167,36 @@ public:
             pData[index] = data;
         }
     }
+    void setInt8(int index, int data) {
+
+        if (index >= 0 && index < tail-1) {
+            pData[index] = data & 0xFF;
+        }
+    }
+    void setInt16(int index, int data) {
+
+        if (index >= 0 && index < tail-2) {
+            unsigned char byte;
+            byte = (unsigned char) (data >> 8) & 0xFF;
+            pData[index]=byte;
+            byte = (unsigned char) data & 0xFF;
+            pData[index+1]=byte;
+        }
+    }
+    void setInt32(int index, int data) {
+
+        if (index >= 0 && index < tail-4) {
+            unsigned char byte;
+            byte = (unsigned char) (data >> 24) && 0xFF;
+            pData[index++]=byte;
+            byte = (unsigned char) (data >> 16) && 0xFF;
+            pData[index++]=byte;
+            byte = (unsigned char) (data >> 8) && 0xFF;
+            pData[index++]=byte;
+            byte = (unsigned char) data && 0xFF;
+            pData[index++]=byte;
+        }
+    }
 
     void append(unsigned char data) {
         if (tail >= mSize) {
@@ -168,7 +212,7 @@ public:
         return mSize;
     }
 
-    int length() {
+    int getLength() const {
         return tail;
     }
 
@@ -186,7 +230,7 @@ public:
     std::string toHex() {
         std::string r;
 
-        for (int i = 0; i < length(); i++) {
+        for (int i = 0; i < getLength(); i++) {
             char temp[4];
             temp[3] = 0;
             sprintf(temp, "%02X ", get(i));
@@ -197,7 +241,7 @@ public:
 
     std::string toASCII() {
         std::string r;
-        for (int i = 0; i < length(); i++) {
+        for (int i = 0; i < getLength(); i++) {
             char temp[4];
 
             unsigned char c = get(i);
