@@ -8,6 +8,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <vector>
 #include "KeyValue.h"
 
 using namespace std;
@@ -33,7 +34,7 @@ private:
     string mac;
     string command;
     string attribute;
-    map<string,string> data;
+    vector<KeyValue> data;
 public:
     string getType() const {
         return type;
@@ -72,12 +73,38 @@ public:
         return attribute;
     }
 
-    std::map<string,string> getData() const {
-        return data;
+    string getData(string key) const {
+        for (int i = 0; i <data.size() ; ++i) {
+            KeyValue kv=data[i];
+            if(kv.getKey()==key)
+            {
+                return kv.getValue();
+            }
+        }
+        return string("");
     }
+
+    void setData(string key,string value) {
+        bool  find= false;
+        for (int i = 0; i <data.size() ; ++i) {
+            KeyValue kv=data[i];
+            if(kv.getKey()==key)
+            {
+                kv.setValue(value);
+                find=true;
+                break;
+            }
+        }
+        KeyValue kv;
+        kv.setKey(key);
+        kv.setValue(value);
+        data.push_back(kv);
+    }
+
     void setAttribute(string t) {
         attribute = t;
     }
+
     string toJSON() {
         string str;
         str.append("{");
@@ -85,7 +112,18 @@ public:
         str.append("\"mac\":\"").append(mac).append("\",");
         str.append("\"sno\":\"").append(sno).append("\",");
         str.append("\"command\":\"").append(command).append("\",");
-        str.append("\"attribute\":\"").append(attribute).append("\"");
+        str.append("\"attribute\":\"").append(attribute).append("\",");
+        str.append("\"data:\"[");
+        int first = 0;
+        for (int i=0;i<data.size();i++) {
+            if (first > 0) {
+                str.append(",");
+            }
+            KeyValue kv=data[i];
+            str.append("{\"k\":\"").append(kv.getKey()).append("\",\"v\":\"").append(kv.getValue()).append("\"}");
+            first++;
+        }
+        str.append("]");
         str.append("}");
         return str;
     }

@@ -23,7 +23,7 @@ public:
     }
 
     string getKey() const {
-        return value;
+        return key;
     }
 
     void setKey(string v) {

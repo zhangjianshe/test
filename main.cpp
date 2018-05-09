@@ -61,6 +61,7 @@ int main() {
 
     ScriptBuffer target;
     Message msg;
+    msg.setData("age","123");
     msg.setType("zjs is le");
     engine.encode(script, &msg, &target);
 

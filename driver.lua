@@ -5,6 +5,7 @@ function ziroom_encode(source,target)
 
     source.type="from lua data!"
     source.mac="asaddsadsa"
+    source:setData("name","zjs")
     target:writeInt16(0); --length
     target:writeInt8(0);
     target:writeInt8(0x11);
