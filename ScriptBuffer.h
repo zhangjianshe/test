@@ -60,10 +60,10 @@ public:
         int byte0 = next();
         int byte1 = next();
 
-        printf("read %d %d",byte0,byte1);
+        printf("read %d %d", byte0, byte1);
 
-        int b = (byte0 << 8 & 0xFF00) ;
-        b =b | (byte1 & 0x00FF);
+        int b = (byte0 << 8 & 0xFF00);
+        b = b | (byte1 & 0x00FF);
         return b;
     }
 
@@ -92,7 +92,6 @@ public:
         unsigned char byte;
         byte = (unsigned char) (data >> 8) & 0xFF;
         append(byte);
-
         byte = (unsigned char) data & 0xFF;
         append(byte);
     }
@@ -109,19 +108,14 @@ public:
         append(byte);
     }
 
-    void writeString(const  char* str)
-    {
-        if(str!=NULL)
-        {
-            unsigned const char* p= reinterpret_cast<const unsigned char *>(str);
-            while(*p!=0)
-            {
+    void writeString(const char *str) {
+        if (str != NULL) {
+            unsigned const char *p = reinterpret_cast<const unsigned char *>(str);
+            while (*p != 0) {
                 append(*p);
                 p++;
             }
-        }
-        else
-        {
+        } else {
             printf("error write String with NULL");
         }
 
@@ -200,13 +194,23 @@ public:
         }
         return r;
     }
+
     std::string toASCII() {
         std::string r;
         for (int i = 0; i < length(); i++) {
             char temp[4];
-            temp[3] = 0;
-            sprintf(temp, "%c ", get(i));
-            r.append(temp);
+
+            unsigned char c = get(i);
+            if ((c >= 0x00 && c <= 0x19) || c == 0x7F) {
+                temp[3] = 0;
+                sprintf(temp, "%02X ", get(i));
+                r.append(temp);
+            } else {
+                temp[1] = 0;
+                sprintf(temp, "%c", c);
+                r.append(temp);
+            }
+
         }
         return r;
     }

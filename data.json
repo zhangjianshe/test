@@ -1,6 +1,11 @@
 {
-  "type":"REQ_PACKAGE",
-  "name":"zjs",
-  "command":"hello",
-  "data":[{"k":"color","v":"0x908765"}]
+  "type": "DEVICE_CONTROL_RESP",
+  "sno": "999210",
+  "did": "14223",
+  "command": "set_bright_resp",
+  "attribute": "light.bright",
+  "data": [{
+    "k": "code",
+    "v": "0"
+  }]
 }
