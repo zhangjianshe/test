@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(zjs)
 
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCE_FILES main.cpp;ScriptEngine.h)
+set(SOURCE_FILES main.cpp;ScriptEngine.h ScriptBuffer.h)
 
 
 find_package(Lua 5.3 REQUIRED)
